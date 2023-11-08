@@ -17,6 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from users.views import UserListCreateView, UserDetailView
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('users/', UserListCreateView.as_view(), name='user-list'),
+    path('users/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
 ]
