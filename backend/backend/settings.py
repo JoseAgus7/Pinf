@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 ]
 
 # Aquí es donde especificas tu modelo de usuario personalizado:
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

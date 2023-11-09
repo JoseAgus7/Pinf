@@ -17,11 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from users.views import UserListCreateView, UserDetailView
-
+from users.views import CreateUserView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', UserListCreateView.as_view(), name='user-list'),
-    path('users/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
+    path('create/', CreateUserView.as_view(), name='create-user'),
 ]

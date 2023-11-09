@@ -1,31 +1,33 @@
-
-
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from django.contrib.auth.hashers import make_password
+from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'nickname', 'favorite_genre', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ('id','username', 'first_name', 'last_name', 'email', 'phone_number', 'favorite_genre', 'password')
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'first_name': {'required': True},
+            'last_name': {'required': True},
+            'email': {'required': True},
+            'phone_number': {'required': False},
+            'favorite_genre': {'required': False},
+        }
+
+    def validate_password(self, value: str) -> str:
+        return make_password(value)
 
     def create(self, validated_data):
-        user = User.objects.create_user(
+        user = User.objects.create(
             username=validated_data['username'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
             email=validated_data['email'],
-            nickname=validated_data['nickname'],
-            favorite_genre=validated_data.get('favorite_genre'),
-            password=validated_data['password']
+            phone_number=validated_data.get('phone_number', ''),
+            favorite_genre=validated_data.get('favorite_genre', ''),
+            password=validated_data['password'],
         )
+        user.set_password(validated_data['password'])
+        user.save()
         return user
-
-    def update(self, instance, validated_data):
-        for attr, value in validated_data.items():
-            if attr == 'password':
-                instance.set_password(value)
-            else:
-                setattr(instance, attr, value)
-        instance.save()
-        return instance
