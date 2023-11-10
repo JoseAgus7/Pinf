@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.contrib.auth.models import AbstractUser, Group, Permission,User
 
 class User(AbstractUser):
     phone_number = models.CharField(max_length=15, blank=True)
@@ -46,3 +46,23 @@ class User(AbstractUser):
         self.is_superuser = False
         self.is_staff = False
         self.save()
+
+
+class Video(models.Model):
+    title = models.CharField(max_length=200)
+    url = models.URLField()
+    description = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+class Comment(models.Model):
+    post = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='comments')  #Falfaria el post assignarselo a la clase que tiene el video
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.text
