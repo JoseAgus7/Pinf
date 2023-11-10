@@ -16,13 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from cortofilm.views import CreateUserView, ListUserView
+from cortofilm.views import CreateUserView, ListUserView, MakeSuperuserView,RevokeSuperuserView,UserDetailView
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('doc/', include_docs_urls(title = "CortoFilm Api")),
     path('users/', ListUserView.as_view(), name='list-users'),
-    path('users/create/', CreateUserView.as_view(), name='create-user'),
-    
+    path('user/create/', CreateUserView.as_view(), name='create-user'),
+    path('user/<int:pk>/makesuperuser/', MakeSuperuserView.as_view(), name='make-superuser'),
+    path('user/<int:pk>/revokesuperuser/', RevokeSuperuserView.as_view(), name='revoke-superuser'),
+    path('user/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
 ]
