@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from cortofilm.views import CreateUserView, ListUserView, MakeSuperuserView,RevokeSuperuserView,UserDetailView
+from cortofilm.views import CreateUserView, ListUserView, MakeSuperuserView,RevokeSuperuserView,UserDetailView,UserDeleteView,UserEditView
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
@@ -27,4 +27,6 @@ urlpatterns = [
     path('user/<int:pk>/makesuperuser/', MakeSuperuserView.as_view(), name='make-superuser'),
     path('user/<int:pk>/revokesuperuser/', RevokeSuperuserView.as_view(), name='revoke-superuser'),
     path('user/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
+    path('user/delete/<int:pk>/', UserDeleteView.as_view(), name='user-delete'),
+    path('user/edit/<int:pk>/', UserEditView.as_view(), name='user-edit'),
 ]

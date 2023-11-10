@@ -1,5 +1,7 @@
 from .models import User
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import DestroyAPIView
+from rest_framework.generics import RetrieveUpdateAPIView
 from .serializers import UserSerializer
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
@@ -17,6 +19,16 @@ class UserDetailView(RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'pk'  # Usamos 'pk' (primary key) para buscar el usuario
+
+class UserDeleteView(DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'pk'  # Usamos 'pk' (primary key) para identificar al usuario
+
+class UserEditView(RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'pk'  # Usamos 'pk' (primary key) para identificar al usuario
 
 class MakeSuperuserView(APIView):
     permission_classes = [permissions.IsAdminUser]  # Asegúrate de que solo los admin puedan hacer este cambio
