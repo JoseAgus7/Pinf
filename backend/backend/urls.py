@@ -15,12 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from cortofilm.views import CreateUserView, ListUserView
-
+from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('doc/', include_docs_urls(title = "CortoFilm Api")),
     path('users/', ListUserView.as_view(), name='list-users'),
     path('users/create/', CreateUserView.as_view(), name='create-user'),
     
